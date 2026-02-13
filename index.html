@@ -1,0 +1,1139 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Will you be my Valentine? 💘</title>
+  <meta name="description" content="Eine süß-frech-lustige Valentinstags-Seite." />
+  <style>
+    :root{
+      --bg1:#fff1f6;
+      --bg2:#f7f7ff;
+      --card:#ffffffcc;
+      --text:#1f1a2a;
+      --muted:#6b5f79;
+      --primary:#ff4d8d;
+      --primary2:#7c4dff;
+      --ok:#23c483;
+      --shadow: 0 20px 60px rgba(31,26,42,.12);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      min-height:100svh;
+      background:
+        radial-gradient(1100px 600px at 20% 20%, var(--bg1), transparent 60%),
+        radial-gradient(900px 500px at 80% 10%, #e8e5ff, transparent 55%),
+        radial-gradient(1100px 700px at 70% 90%, #ffe7f1, transparent 60%),
+        linear-gradient(180deg, var(--bg2), #fff);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+      overflow:hidden;
+    }
+
+    .wrap{ width:min(1200px, 100%); position:relative; }
+
+    .card{
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,.55);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      min-height: min(500px, 84vh);
+      padding:34px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      color:rgba(31,26,42,.85);
+      background:rgba(255,255,255,.65);
+      border:1px solid rgba(255,255,255,.8);
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tiny{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.35;
+    }
+
+    h1{
+      margin:10px 0 8px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height:1.06;
+      letter-spacing:-.02em;
+    }
+
+    .sub{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size: 15.5px;
+      line-height:1.55;
+      max-width: 64ch;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:20px;
+      align-items:center;
+    }
+    @media (max-width: 860px){
+      .hero{grid-template-columns:1fr}
+    }
+
+    .ill{
+      border-radius:var(--radius);
+      padding:18px;
+      background: rgba(255,255,255,.58);
+      border:1px dashed rgba(124,77,255,.25);
+      min-height: 170px;
+      position:relative;
+      overflow:hidden;
+    }
+    .ill .big{
+      font-size: 64px;
+      filter: drop-shadow(0 12px 18px rgba(255,77,141,.20));
+      transform: rotate(-6deg);
+      display:inline-block;
+      margin-bottom:6px;
+    }
+    .ill .line{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+    }
+    .ill .spark{
+      position:absolute;
+      inset:-40px -40px auto auto;
+      transform: rotate(18deg);
+      opacity:.12;
+      font-size: 140px;
+      user-select:none;
+      pointer-events:none;
+    }
+
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 18px;
+    }
+    .btn{
+      border:0;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 850;
+      font-size: 15px;
+      cursor:pointer;
+      transition: transform .08s ease, filter .15s ease, box-shadow .2s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      box-shadow: 0 10px 24px rgba(31,26,42,.10);
+      letter-spacing: .01em;
+    }
+    .btn:active{ transform: translateY(1px) scale(.99); }
+    .btn.primary{
+      color:white;
+      background: linear-gradient(135deg, var(--primary), #ff7ab1);
+    }
+    .btn.secondary{
+      color: rgba(31,26,42,.9);
+      background: rgba(255,255,255,.78);
+      border:1px solid rgba(255,255,255,.9);
+    }
+    .btn.ghost{
+      color: rgba(31,26,42,.75);
+      background: rgba(255,255,255,.42);
+      border:1px solid rgba(255,255,255,.6);
+      box-shadow:none;
+    }
+    .btn.ok{
+      color:white;
+      background: linear-gradient(135deg, var(--ok), #65e4b4);
+    }
+    .btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none !important; }
+
+    /* beweglicher No-Button */
+    .no-wrap{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      min-width: 140px;
+      min-height: 54px;
+    }
+    #btnNo{
+      position: relative; /* wird per JS auf absolute gesetzt */
+      will-change: left, top;
+    }
+
+    .step{ display:none; animation: fadeIn .26s ease; }
+    .step.active{ display:block; }
+    @keyframes fadeIn{
+      from{ opacity:0; transform: translateY(6px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    /* Selection grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 980px){ .grid{grid-template-columns: repeat(2, minmax(0, 1fr));} }
+    @media (max-width: 560px){ .grid{grid-template-columns: 1fr;} }
+
+    .tile{
+      padding: 14px 14px 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(255,255,255,.88);
+      box-shadow: 0 10px 26px rgba(31,26,42,.08);
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      min-height: 78px;
+    }
+    .tile:hover{ transform: translateY(-1px); }
+    .tile .emoji{ font-size: 24px; }
+    .tile .t1{ font-weight: 950; margin:0; }
+    .tile .t2{ margin:4px 0 0; color:var(--muted); font-size:13.5px; line-height:1.35; }
+    .tile.selected{
+      border-color: rgba(255,77,141,.55);
+      box-shadow: 0 14px 32px rgba(255,77,141,.16);
+      outline: 2px solid rgba(255,77,141,.18);
+    }
+
+    .footer{
+      margin-top: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .summary{
+      display:grid;
+      gap: 12px;
+      margin: 14px 0 4px;
+    }
+    .summaryCard{
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(255,255,255,.9);
+      box-shadow: 0 10px 26px rgba(31,26,42,.08);
+    }
+    .summaryCard h3{
+      margin:0 0 6px;
+      font-size: 16px;
+      letter-spacing:-.01em;
+    }
+    .summaryCard p{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height:1.45;
+    }
+    .pillRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(255,255,255,.9);
+      box-shadow: 0 10px 26px rgba(31,26,42,.08);
+      font-size: 13.5px;
+      font-weight: 900;
+    }
+
+    .divider{
+      height:1px;
+      background: rgba(124,77,255,.12);
+      margin: 18px 0 10px;
+    }
+
+    /* Floating hearts */
+    .floaty{
+      position:fixed;
+      left:0; top:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .heart{
+      position:absolute;
+      font-size: 18px;
+      opacity:.9;
+      animation: rise linear forwards;
+      filter: drop-shadow(0 10px 14px rgba(255,77,141,.22));
+    }
+    @keyframes rise{
+      from { transform: translateY(0) scale(.95) rotate(0deg); opacity:.0; }
+      10% { opacity: .95; }
+      to   { transform: translateY(-110vh) scale(1.25) rotate(26deg); opacity:0; }
+    }
+
+    /* Meme Modal */
+    .modalOverlay{
+      position:fixed;
+      inset:0;
+      background: rgba(31,26,42,.28);
+      backdrop-filter: blur(6px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index: 50;
+    }
+    .modalOverlay.show{ display:flex; }
+    .modal{
+      width: min(900px, 100%);
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(255,255,255,.9);
+      box-shadow: 0 26px 80px rgba(31,26,42,.22);
+      border-radius: 22px;
+      overflow:hidden;
+      animation: pop .18s ease;
+    }
+    @keyframes pop{
+      from{ transform: translateY(10px) scale(.98); opacity:.0; }
+      to{ transform: translateY(0) scale(1); opacity:1; }
+    }
+    .modalHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(124,77,255,.10);
+      background: rgba(255,255,255,.50);
+    }
+    .modalHeader .mhLeft{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:950;
+    }
+    .modalHeader .close{
+      border:0;
+      background: transparent;
+      font-size: 18px;
+      cursor:pointer;
+      opacity:.7;
+    }
+    .modalBody{
+      padding: 14px;
+      display:grid;
+      gap: 10px;
+    }
+
+    .gifGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      align-items:start;
+    }
+    @media (max-width: 860px){
+      .gifGrid{ grid-template-columns: 1fr; }
+    }
+
+    .tenor-gif-embed{
+      border-radius:16px;
+      border: 1px solid rgba(124,77,255,.12);
+      background: rgba(255,255,255,.65);
+      overflow:hidden;
+      box-shadow: 0 10px 26px rgba(31,26,42,.08);
+    }
+
+    .teaser{
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.70);
+      border: 1px solid rgba(255,255,255,.9);
+      color: rgba(31,26,42,.9);
+      font-weight: 950;
+    }
+    .modalActions{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      padding: 0 14px 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="floaty" id="floaty"></div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="topbar">
+        <div class="badge" id="badge" title="click 3x 😉">
+          <span>💌</span>
+          <span id="badgeText">Love Letter</span>
+        </div>
+        <div class="tiny" id="whoLine"></div>
+      </div>
+
+      <!-- STEP 1 -->
+      <section class="step active" id="step1">
+        <div class="hero">
+          <div>
+            <h1 id="headline">My love… will you be my Valentine? 💘</h1>
+            <p class="sub" id="subline">
+              I’m asking a tiny, harmless question…
+              <br><span style="opacity:.9">And yes: I will take your answer personally. 🙃</span>
+            </p>
+
+            <div class="actions">
+              <button class="btn primary" id="btnYes">YES YES YES</button>
+
+              <span class="no-wrap" id="noWrap">
+                <button class="btn secondary" id="btnNo">No.....</button>
+              </span>
+
+              <button class="btn ghost" id="btnMaybe">Maybeee</button>
+            </div>
+
+            <div class="footer">
+              <span>Tip: <code>There is only ONE right answer my love!</code></span>
+              <span id="triesInfo"></span>
+            </div>
+          </div>
+
+          <!-- <div class="ill">
+            <div class="spark">✨</div>
+            <div class="big">💘</div>
+            <div class="line">
+              <strong>Mini briefing:</strong><br/>
+              1) Answer the question<br/>
+              2) Pick food (one)<br/>
+              3) Pick activities (multiple)<br/>
+              4) Cute recap + deal
+            </div>
+          </div> -->
+        </div>
+      </section>
+
+      <!-- STEP FOOD -->
+      <section class="step" id="stepFood">
+        <h1>First: Food. 🍽️</h1>
+        <p class="sub">
+          Choose <strong>one</strong> food option. No chaos. (Ok, minimal chaos.)
+        </p>
+
+        <div class="grid" id="foodGrid"></div>
+
+        <div class="divider"></div>
+
+        <div class="actions">
+          <button class="btn secondary" id="btnFoodBack">Back ↩️</button>
+          <button class="btn ok" id="btnFoodNext" disabled>Next 👉</button>
+        </div>
+
+        <div class="footer">
+          <span id="foodHint">Nothing selected yet.</span>
+          <span class="tiny">Only one choice allowed.</span>
+        </div>
+      </section>
+
+      <!-- STEP ACTIVITY -->
+      <section class="step" id="stepActivity">
+        <h1>Then: Activities. 🎡</h1>
+        <p class="sub">
+          Pick one or more activities. Yes, multiple. I trust you (a little).
+        </p>
+
+        <div class="grid" id="activityGrid"></div>
+
+        <div class="divider"></div>
+
+        <div class="actions">
+          <button class="btn secondary" id="btnActBack">Back ↩️</button>
+          <button class="btn ok" id="btnActNext" disabled>Next 👉</button>
+        </div>
+
+        <div class="footer">
+          <span id="actHint">Nothing selected yet.</span>
+          <span class="tiny">Multiple selections allowed.</span>
+        </div>
+      </section>
+
+      <!-- STEP SUMMARY -->
+      <section class="step" id="stepSummary">
+        <h1 id="finalTitle">Deal. 💘</h1>
+        <p class="sub" id="finalSub">
+          Here’s our official mini plan:
+        </p>
+
+        <div class="summary" id="summary"></div>
+
+        <div class="divider"></div>
+
+        <div class="actions">
+          <button class="btn primary" id="btnSeal">Pinky Promise 🤝💘</button>
+          <button class="btn secondary" id="btnCalendar">Calendar link 📅</button>
+          <button class="btn ghost" id="btnRestart">Restart (because cute) 🔁</button>
+        </div>
+
+        <div class="footer">
+          <span id="signature">—</span>
+          <span class="tiny">Love Letter (💌) x3 = secret 😈</span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Meme Modal -->
+  <div class="modalOverlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Meme">
+    <div class="modal">
+      <div class="modalHeader">
+        <div class="mhLeft"><span id="modalEmoji">🎬</span><span id="modalTitle">Reaction</span></div>
+        <button class="close" id="modalClose" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modalBody">
+        <div id="gifSlot"></div>
+        <div class="teaser" id="modalTeaser"></div>
+      </div>
+
+      <div class="modalActions">
+        <button class="btn primary" id="modalContinue">Continue 👉</button>
+        <button class="btn secondary" id="modalBack">Back ↩️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tenor loader -->
+  <script async src="https://tenor.com/embed.js"></script>
+
+  <script>
+    const $ = (sel) => document.querySelector(sel);
+    const rand = (arr) => arr[Math.floor(Math.random()*arr.length)];
+    const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+    // Personalization
+    const params = new URLSearchParams(location.search);
+    const DEFAULT_NAME = "Mimoza";
+    const DEFAULT_NICK = "my zemer";
+    const NAME = (params.get("name") || DEFAULT_NAME).trim() || DEFAULT_NAME;
+    const FROM = (params.get("from") || "").trim();
+
+    const state = {
+      step: "step1",
+      noTries: 0,
+      foodPick: null,
+      activityPicks: new Set(),
+      pendingAction: null,
+      loveLetterClicks: 0
+    };
+
+    // Steps
+    const STEPS = ["step1", "stepFood", "stepActivity", "stepSummary"];
+    function showStep(id){
+      state.step = id;
+      STEPS.forEach(s => $("#"+s).classList.toggle("active", s === id));
+      window.scrollTo({top:0, behavior:"smooth"});
+      if(id === "stepFood") renderFood();
+      if(id === "stepActivity") renderActivities();
+      if(id === "stepSummary") renderSummary();
+      reloadTenorEmbeds();
+    }
+
+    // Floating hearts
+    const floaty = $("#floaty");
+    function burstHearts(count=12){
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "heart";
+        el.textContent = rand(["💖","💘","💗","💓","💕","🫶"]);
+        const x = Math.random()*100;
+        const dur = 2.8 + Math.random()*2.2;
+        const delay = Math.random()*0.25;
+        const size = 14 + Math.random()*16;
+        el.style.left = x + "vw";
+        el.style.bottom = "-5vh";
+        el.style.fontSize = size + "px";
+        el.style.animationDuration = dur + "s";
+        el.style.animationDelay = delay + "s";
+        floaty.appendChild(el);
+        setTimeout(()=> el.remove(), (dur+delay)*1000 + 50);
+      }
+    }
+
+    // Tenor snippets (NO script tags)
+    const TENOR = {
+      easter: `
+        <div class="gifGrid">
+          <div class="tenor-gif-embed" data-postid="877845354411509444" data-share-method="host" data-aspect-ratio="1.23333" data-width="100%">
+            <a href="https://tenor.com/view/amor-love-snoopy-gif-877845354411509444">Amor Love GIF</a>from
+            <a href="https://tenor.com/search/amor-gifs">Amor GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="15433105860833737727" data-share-method="host" data-aspect-ratio="0.805825" data-width="100%">
+            <a href="https://tenor.com/view/hug-puuung-puuung-love-puuung-hug-couple-in-blanket-blanket-hug-gif-15433105860833737727">Hug Puuung Puuung Love GIF</a>from
+            <a href="https://tenor.com/search/hug+puuung-gifs">Hug Puuung GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="12186015021689896619" data-share-method="host" data-aspect-ratio="1.09211" data-width="100%">
+            <a href="https://tenor.com/view/besito-catlove-gif-12186015021689896619">Besito Catlove GIF</a>from 
+            <a href="https://tenor.com/search/besito-gifs">Besito GIFs</a>
+          </div>
+        </div>
+      `,
+      yes: `
+        <div class="gifGrid">
+          <div class="tenor-gif-embed" data-postid="24122479" data-share-method="host" data-aspect-ratio="1.33891" data-width="100%">
+            <a href="https://tenor.com/view/tom-and-jerry-heart-eyes-heart-tom-trendizisst-gif-24122479">Tom And Jerry Heart Eyes GIF</a>from
+            <a href="https://tenor.com/search/tom+and+jerry-gifs">Tom And Jerry GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="430695432462173815" data-share-method="host" data-aspect-ratio="1.3" data-width="100%">
+            <a href="https://tenor.com/view/christmas-eve-merry-christmas-eve-christmas-merry-christmas-merry-christmas-funny-gif-430695432462173815">Christmas Eve Merry Christmas Eve GIF</a>from
+            <a href="https://tenor.com/search/christmas+eve-gifs">Christmas Eve GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="16524200983590972642" data-share-method="host" data-aspect-ratio="0.941767" data-width="100%">
+            <a href="https://tenor.com/view/ohyeah-cute-dance-gif-16524200983590972642">Ohyeah Cute GIF</a>from
+            <a href="https://tenor.com/search/ohyeah-gifs">Ohyeah GIFs</a>
+          </div>
+        </div>
+      `,
+      maybe: `
+        <div class="gifGrid">
+          <div class="tenor-gif-embed" data-postid="7168232616317856417" data-share-method="host" data-aspect-ratio="1.36719" data-width="100%">
+            <a href="https://tenor.com/view/suspicious-dog-gif-7168232616317856417">Suspicious Dog Meme</a>from
+            <a href="https://tenor.com/search/suspicious-memes">Suspicious Memes</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="3983757612597286546" data-share-method="host" data-aspect-ratio="0.890511" data-width="100%">
+            <a href="https://tenor.com/view/whatsapp-gif-3983757612597286546">Whatsapp GIF</a>from
+            <a href="https://tenor.com/search/whatsapp-gifs">Whatsapp GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="17696690" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+            <a href="https://tenor.com/view/just-do-it-do-it-flames-fire-shia-labeouf-gif-17696690">Just Do It Flames GIF</a>from
+            <a href="https://tenor.com/search/just+do+it-gifs">Just Do It GIFs</a>
+          </div>
+        </div>
+      `,
+      no: `
+        <div class="gifGrid">
+          <div class="tenor-gif-embed" data-postid="14524557650897979460" data-share-method="host" data-aspect-ratio="1.33871" data-width="100%">
+            <a href="https://tenor.com/view/special-ed-special-gif-14524557650897979460">Special Ed GIF</a>from
+            <a href="https://tenor.com/search/special+ed-gifs">Special Ed GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="5515437" data-share-method="host" data-aspect-ratio="1.72414" data-width="100%">
+            <a href="https://tenor.com/view/unacceptable-adventure-time-lemongrab-freakout-armflail-gif-5515437">Unacceptable Adventure Time GIF</a>from
+            <a href="https://tenor.com/search/unacceptable-gifs">Unacceptable GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="1122084852060402697" data-share-method="host" data-aspect-ratio="1.15278" data-width="100%">
+            <a href="https://tenor.com/view/star-tamil-chat-sanjay-chat-star-chat-tamil-chat-dog-sad-gif-1122084852060402697">Star Tamil Chat Sanjay Chat GIF</a>from
+            <a href="https://tenor.com/search/star+tamil+chat-gifs">Star Tamil Chat GIFs</a>
+          </div>
+        </div>
+      `,
+      foodExtra: `
+        <div class="gifGrid">
+          <div class="tenor-gif-embed" data-postid="4779776" data-share-method="host" data-aspect-ratio="1.33333" data-width="100%">
+            <a href="https://tenor.com/view/burger-eating-mess-kid-kid-eating-a-burger-gif-4779776">Kid Mess GIF</a>from
+            <a href="https://tenor.com/search/burger-gifs">Burger GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="1105306683440534892" data-share-method="host" data-aspect-ratio="1.74603" data-width="100%">
+            <a href="https://tenor.com/view/ummm-gif-1105306683440534892">Ummm GIF</a>from
+            <a href="https://tenor.com/search/ummm-gifs">Ummm GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="8298307794984328423" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+            <a href="https://tenor.com/view/dogs-eating-noodles-cute-gif-8298307794984328423">Dogs Eating Noodles GIF</a>from 
+            <a href="https://tenor.com/search/dogs-gifs">Dogs GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="10503788893903600698" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+            <a href="https://tenor.com/view/cat-eating-meme-nom-nom-eating-yummy-nom-gif-10503788893903600698">Cat Eating Meme Nom Nom Sticker</a>from
+            <a href="https://tenor.com/search/cat+eating+meme-stickers">Cat Eating Meme Stickers</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="1391856001900746367" data-share-method="host" data-aspect-ratio="1.38333" data-width="100%">
+            <a href="https://tenor.com/view/goku-dragon-ball-so-full-eating-ate-so-much-gif-1391856001900746367">Goku Dragon Ball GIF</a>from 
+            <a href="https://tenor.com/search/goku-gifs">Goku GIFs</a>
+          </div>
+        </div>
+      `,
+      activityExtra: `
+        <div class="gifGrid">
+          <div class="tenor-gif-embed" data-postid="14949754726070121020" data-share-method="host" data-aspect-ratio="0.801205" data-width="100%">
+            <a href="https://tenor.com/view/cat-drinking-matcha-gif-14949754726070121020">Cat Drinking Matcha Meme</a>from
+            <a href="https://tenor.com/search/cat+drinking+matcha-memes">Cat Drinking Matcha Memes</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="22092325" data-share-method="host" data-aspect-ratio="1.03226" data-width="100%">
+            <a href="https://tenor.com/view/teletubbies-lala-po-poh-walking-gif-22092325">Teletubbies Lala GIF</a>from
+            <a href="https://tenor.com/search/teletubbies-gifs">Teletubbies GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="15172942" data-share-method="host" data-aspect-ratio="1.69312" data-width="100%">
+            <a href="https://tenor.com/view/date-cinema-mr-bean-movie-gif-15172942">Date Cinema GIF</
+              a>from <a href="https://tenor.com/search/date-gifs">Date GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="5272922" data-share-method="host" data-aspect-ratio="1.3369" data-width="100%">
+            <a href="https://tenor.com/view/couch-donald-duck-date-date-night-daisy-duck-gif-5272922">Donald Duck Making A Classic Move GIF</a>from 
+            <a href="https://tenor.com/search/couch-gifs">Couch GIFs</a>
+          </div>
+          <div class="tenor-gif-embed" data-postid="18330649686964679959" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+            <a href="https://tenor.com/view/pepe-gaming-gif-18330649686964679959">Pepe Gaming Sticker</a>from
+            <a href="https://tenor.com/search/pepe-stickers">Pepe Stickers</a>
+          </div>
+        </div>
+      `
+    };
+
+    function reloadTenorEmbeds(){
+      const old = document.getElementById("tenor-reloader");
+      if(old) old.remove();
+      const s = document.createElement("script");
+      s.id = "tenor-reloader";
+      s.async = true;
+      s.src = "https://tenor.com/embed.js";
+      document.body.appendChild(s);
+    }
+
+    // Modal
+    const modalOverlay = $("#modalOverlay");
+    const modalEmoji = $("#modalEmoji");
+    const modalTitle = $("#modalTitle");
+    const gifSlot = $("#gifSlot");
+    const modalTeaser = $("#modalTeaser");
+    const modalClose = $("#modalClose");
+    const modalContinue = $("#modalContinue");
+    const modalBackBtn = $("#modalBack");
+
+    function openMemeModal({emoji="🎬", title="Reaction", gifKey="easter", teaser="", mode="normal", onContinue, onBack}){
+      modalEmoji.textContent = emoji;
+      modalTitle.textContent = title;
+      gifSlot.innerHTML = TENOR[gifKey] || TENOR.easter;
+      modalTeaser.textContent = teaser;
+
+      if(mode === "backOnly"){
+        modalContinue.style.display = "none";
+        modalBackBtn.textContent = "Back 😒";
+      } else {
+        modalContinue.style.display = "";
+        modalContinue.textContent = "Continue 👉";
+        modalBackBtn.textContent = "Back ↩️";
+      }
+
+      state.pendingAction = { onContinue, onBack, mode };
+      modalOverlay.classList.add("show");
+      burstHearts(10);
+      reloadTenorEmbeds();
+    }
+
+    function closeModal(){
+      modalOverlay.classList.remove("show");
+      state.pendingAction = null;
+    }
+
+    modalClose.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e)=>{ if(e.target === modalOverlay) closeModal(); });
+
+    modalContinue.addEventListener("click", ()=>{
+      const a = state.pendingAction;
+      closeModal();
+      if(a?.onContinue) a.onContinue();
+    });
+
+    modalBackBtn.addEventListener("click", ()=>{
+      const a = state.pendingAction;
+      closeModal();
+      if(a?.onBack) a.onBack();
+    });
+
+    window.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape") closeModal();
+    });
+
+    // Food options (single)
+    const FOODS = [
+      {id:"pizza", emoji:"🍕", title:"Pizza", desc:"Cheesy. Classic. Dangerous."},
+      {id:"burger", emoji:"🍔", title:"Burger", desc:"Messy hands = true love."},
+      {id:"asian", emoji:"🍜", title:"Asiatisch", desc:"Noodles / sushi vibes. Yes."},
+      {id:"mex", emoji:"🌮", title:"Mexikanisch", desc:"Tacos. Salsa. Main character energy."},
+    ];
+
+    // Activities (multi)
+    const ACTIVITIES = [
+      {id:"walk", emoji:"🌙", title:"Alster Walk", desc:"Cute stroll + cozy vibes + cold weather."},
+      {id:"cinema", emoji:"🎬", title:"Cinema / Movie night", desc:"You pick movie, I pick snacks."},
+      {id:"gaming", emoji:"🎮", title:"Gaming + Snacks", desc:"Winner gets kisses (me)."},
+      {id:"matcha", emoji:"🍵", title:"Matcha Date", desc:"Green tea, cute talk, soft chaos."},
+    ];
+
+    // FOOD STEP
+    const foodGrid = $("#foodGrid");
+    const btnFoodBack = $("#btnFoodBack");
+    const btnFoodNext = $("#btnFoodNext");
+    const foodHint = $("#foodHint");
+
+    function renderFood(){
+      foodGrid.innerHTML = "";
+      FOODS.forEach(item=>{
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        tile.dataset.id = item.id;
+        tile.innerHTML = `
+          <div class="emoji">${item.emoji}</div>
+          <div>
+            <p class="t1">${item.title}</p>
+            <p class="t2">${item.desc}</p>
+          </div>
+        `;
+        if(state.foodPick === item.id) tile.classList.add("selected");
+
+        tile.addEventListener("click", ()=>{
+          state.foodPick = item.id;
+          [...foodGrid.querySelectorAll(".tile")].forEach(t => t.classList.remove("selected"));
+          tile.classList.add("selected");
+          updateFoodHint();
+
+          openMemeModal({
+            emoji:"🍽️",
+            title:"Food choice locked in.",
+            gifKey:"foodExtra",
+            teaser:"Teaser: Next up… pick activities. 🎡",
+            mode:"normal",
+            onContinue: ()=> showStep("stepActivity"),
+            onBack: ()=>{}
+          });
+        });
+
+        foodGrid.appendChild(tile);
+      });
+      updateFoodHint();
+    }
+
+    function updateFoodHint(){
+      btnFoodNext.disabled = !state.foodPick;
+      foodHint.textContent = state.foodPick
+        ? `Selected: ${FOODS.find(x=>x.id===state.foodPick)?.title || "Food"}`
+        : "Nothing selected yet.";
+    }
+
+    // ACTIVITY STEP
+    const activityGrid = $("#activityGrid");
+    const btnActBack = $("#btnActBack");
+    const btnActNext = $("#btnActNext");
+    const actHint = $("#actHint");
+
+    function renderActivities(){
+      activityGrid.innerHTML = "";
+      ACTIVITIES.forEach(item=>{
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        tile.dataset.id = item.id;
+        tile.innerHTML = `
+          <div class="emoji">${item.emoji}</div>
+          <div>
+            <p class="t1">${item.title}</p>
+            <p class="t2">${item.desc}</p>
+          </div>
+        `;
+        if(state.activityPicks.has(item.id)) tile.classList.add("selected");
+
+        tile.addEventListener("click", ()=>{
+          if(state.activityPicks.has(item.id)) state.activityPicks.delete(item.id);
+          else state.activityPicks.add(item.id);
+
+          tile.classList.toggle("selected", state.activityPicks.has(item.id));
+          updateActHint();
+
+          openMemeModal({
+            emoji:"🎡",
+            title:"Activity update.",
+            gifKey:"activityExtra",
+            teaser:"Teaser: You can pick more… or click Next. 💘",
+            mode:"normal",
+            onContinue: ()=>{},
+            onBack: ()=>{}
+          });
+        });
+
+        activityGrid.appendChild(tile);
+      });
+      updateActHint();
+    }
+
+    function updateActHint(){
+      btnActNext.disabled = (state.activityPicks.size === 0);
+      if(state.activityPicks.size === 0){
+        actHint.textContent = "Nothing selected yet.";
+      } else {
+        const names = Array.from(state.activityPicks).map(id => ACTIVITIES.find(x=>x.id===id)?.title).filter(Boolean);
+        actHint.textContent = `Selected: ${names.join(", ")}`;
+      }
+    }
+
+    // SUMMARY
+    function renderSummary(){
+      const food = FOODS.find(x=>x.id===state.foodPick);
+      const acts = Array.from(state.activityPicks).map(id => ACTIVITIES.find(x=>x.id===id)).filter(Boolean);
+
+      const summary = $("#summary");
+      summary.innerHTML = "";
+
+      const card1 = document.createElement("div");
+      card1.className = "summaryCard";
+      card1.innerHTML = `<h3>🍽️ Food</h3><p>${food ? `${food.emoji} <strong>${food.title}</strong> — ${food.desc}` : "TBD"}</p>`;
+
+      const card2 = document.createElement("div");
+      card2.className = "summaryCard";
+      card2.innerHTML = `<h3>🎡 Activities</h3><p>${acts.length ? acts.map(a=>`${a.emoji} <strong>${a.title}</strong>`).join(" · ") : "TBD"}</p>`;
+
+      const card3 = document.createElement("div");
+      card3.className = "summaryCard";
+      card3.innerHTML = `
+        <h3>💘 Cute recap</h3>
+        <p>
+          <strong>${DEFAULT_NICK}</strong> (${NAME}) gets: <strong>${food ? food.title : "food"}</strong> + <strong>${acts.length ? acts.map(a=>a.title).join(", ") : "activities"}</strong>.
+          <br/>Side effects: giggles, snacks, and me being annoyingly happy.
+        </p>
+        <div class="pillRow">
+          <span class="pill">✅ food locked</span>
+          <span class="pill">✅ activities picked</span>
+          <span class="pill">✅ romance confirmed</span>
+        </div>
+      `;
+
+      summary.appendChild(card1);
+      summary.appendChild(card2);
+      summary.appendChild(card3);
+
+      $("#finalTitle").textContent = "Deal. 💘";
+      $("#finalSub").textContent = `Official plan with ${DEFAULT_NICK}. Now I just need your signature.`;
+      $("#signature").textContent = FROM ? `— ${FROM}` : "— your (slightly chaotic) valentine manager";
+    }
+
+    // Nav buttons
+    btnFoodBack.addEventListener("click", ()=> showStep("step1"));
+    btnFoodNext.addEventListener("click", ()=> showStep("stepActivity"));
+
+    btnActBack.addEventListener("click", ()=> showStep("stepFood"));
+    btnActNext.addEventListener("click", ()=> showStep("stepSummary"));
+
+    $("#btnRestart").addEventListener("click", ()=>{
+      state.noTries = 0;
+      state.foodPick = null;
+      state.activityPicks.clear();
+      resetNoButton();
+      $("#badgeText").textContent = "Love Letter";
+      updateTries();
+      showStep("step1");
+    });
+
+    // Pinky promise uses the SAME 3 gifs (as requested)
+    $("#btnSeal").addEventListener("click", ()=>{
+      burstHearts(28);
+      openMemeModal({
+        emoji:"🤝💘",
+        title:"Pinky Promise",
+        gifKey:"easter",
+        teaser:"Teaser: Calendar link for Feb 14th, all-day? 📅",
+        mode:"normal",
+        onContinue: ()=> { $("#badgeText").textContent = "Signed: ❤️"; },
+        onBack: ()=>{}
+      });
+    });
+
+    // Calendar: 14.02.2026 all-day
+    $("#btnCalendar").addEventListener("click", ()=>{
+      const food = FOODS.find(x=>x.id===state.foodPick)?.title || "Food";
+      const acts = Array.from(state.activityPicks).map(id => ACTIVITIES.find(x=>x.id===id)?.title).filter(Boolean);
+      const actText = acts.length ? acts.join(" + ") : "Activities";
+
+      const text = encodeURIComponent(`Valentine Date 💘 (${food} + ${actText})`);
+      const details = encodeURIComponent(`For: ${DEFAULT_NICK} (${NAME})\nFood: ${food}\nActivities: ${actText}\n\nPS: YES was clicked. Officially.`);
+      const dates = "20260214/20260215"; // all-day (end exclusive)
+
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&details=${details}&dates=${dates}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+
+    // No-button movement
+    const btnNo = $("#btnNo");
+    const noWrap = $("#noWrap");
+    let noAbsolute = false;
+
+    function updateTries(){
+      $("#triesInfo").textContent = state.noTries ? `No-button dodges: ${state.noTries}` : "";
+    }
+
+    function makeNoAbsoluteIfNeeded(){
+      if(noAbsolute) return;
+      const btnRect = btnNo.getBoundingClientRect();
+      const wrapRect = noWrap.getBoundingClientRect();
+
+      noWrap.style.width = wrapRect.width + "px";
+      noWrap.style.height = wrapRect.height + "px";
+
+      btnNo.style.position = "absolute";
+      btnNo.style.left = (btnRect.left - wrapRect.left) + "px";
+      btnNo.style.top  = (btnRect.top  - wrapRect.top) + "px";
+      noAbsolute = true;
+    }
+
+    function moveNoButton(){
+      makeNoAbsoluteIfNeeded();
+      state.noTries += 1;
+      updateTries();
+
+      const wrapRect = noWrap.getBoundingClientRect();
+      const btnRect = btnNo.getBoundingClientRect();
+
+      const minW = Math.max(260, btnRect.width + 60);
+      const minH = Math.max(82,  btnRect.height + 30);
+      if(wrapRect.width < minW) noWrap.style.width = minW + "px";
+      if(wrapRect.height < minH) noWrap.style.height = minH + "px";
+
+      const wrapRect2 = noWrap.getBoundingClientRect();
+      const maxX = wrapRect2.width - btnRect.width;
+      const maxY = wrapRect2.height - btnRect.height;
+
+      const curLeft = parseFloat(btnNo.style.left) || 0;
+      const curTop  = parseFloat(btnNo.style.top)  || 0;
+
+      let nx = Math.random() * maxX;
+      let ny = Math.random() * maxY;
+
+      if(Math.hypot(nx-curLeft, ny-curTop) < 50){
+        nx = clamp(nx + 90, 0, maxX);
+        ny = clamp(ny + 32, 0, maxY);
+      }
+
+      btnNo.style.left = nx + "px";
+      btnNo.style.top  = ny + "px";
+    }
+
+    function resetNoButton(){
+      noAbsolute = false;
+      btnNo.style.position = "relative";
+      btnNo.style.left = "";
+      btnNo.style.top = "";
+      noWrap.style.width = "";
+      noWrap.style.height = "";
+    }
+
+    btnNo.addEventListener("mouseenter", ()=>{
+      if (window.matchMedia("(hover:hover)").matches) moveNoButton();
+    });
+    btnNo.addEventListener("pointerdown", (e)=>{
+      if (!window.matchMedia("(hover:hover)").matches){
+        e.preventDefault();
+        moveNoButton();
+      }
+    });
+
+    // Step 1 answer buttons
+    $("#btnYes").addEventListener("click", ()=>{
+      openMemeModal({
+        emoji:"✅",
+        title:"Answer locked in.",
+        gifKey:"yes",
+        teaser:`Teaser: Let's gooo ${DEFAULT_NICK}… first we pick FOOD. 🍽️`,
+        mode:"normal",
+        onContinue: ()=> { $("#badgeText").textContent = "Love Letter"; burstHearts(18); showStep("stepFood"); },
+        onBack: ()=>{}
+      });
+    });
+
+    $("#btnMaybe").addEventListener("click", ()=>{
+      openMemeModal({
+        emoji:"😳",
+        title:"Aha… “Maybeee”",
+        gifKey:"maybe",
+        teaser:`Teaser: ${DEFAULT_NICK}, I’ll wait here until you become brave. 🙂`,
+        mode:"backOnly",
+        onContinue: null,
+        onBack: ()=>{}
+      });
+    });
+
+    $("#btnNo").addEventListener("click", ()=>{
+      openMemeModal({
+        emoji:"🙃",
+        title:"You clicked “No.....”",
+        gifKey:"no",
+        teaser:`Teaser: ${DEFAULT_NICK}, we will pretend this never happened... 😌`,
+        mode:"backOnly",
+        onContinue: null,
+        onBack: ()=>{}
+      });
+    });
+
+    // Love letter: on 3 clicks => pop the 3 new gifs (and reset counter)
+    $("#badge").addEventListener("click", ()=>{
+      state.loveLetterClicks += 1;
+      $("#badgeText").textContent = state.loveLetterClicks >= 3 ? "Love Letter 💘" : `Love Letter (${state.loveLetterClicks}/3)`;
+
+      if(state.loveLetterClicks >= 3){
+        state.loveLetterClicks = 0;
+        $("#badgeText").textContent = "Love Letter";
+
+        openMemeModal({
+          emoji:"💌",
+          title:"Secret Love Letter",
+          gifKey:"easter",
+          teaser:`Teaser: ${DEFAULT_NICK}… TE DUA SHUME! Like, PA FUND. 🥰`,
+          mode:"normal",
+          onContinue: ()=>{},
+          onBack: ()=>{}
+        });
+      }
+    });
+
+    // Init
+    (function init(){
+      $("#headline").textContent = `${DEFAULT_NICK}… will you be my Valentine? 💘`;
+      $("#whoLine").textContent = `For: ${NAME} (${DEFAULT_NICK})`;
+      $("#subline").innerHTML =
+        `Hey <strong>${DEFAULT_NICK}</strong>… I’m asking a tiny, harmless question…<br/>` +
+        `and yes, I will take your answer personally. <span style="opacity:.9">Choose wisely. 🙃</span>`;
+
+      $("#signature").textContent = FROM ? `— ${FROM}` : "— your (slightly chaotic) valentine manager";
+
+      setTimeout(()=> burstHearts(10), 350);
+      updateTries();
+      showStep("step1");
+      reloadTenorEmbeds();
+    })();
+  </script>
+</body>
+</html>
